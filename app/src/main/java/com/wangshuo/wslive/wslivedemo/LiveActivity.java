@@ -3,8 +3,9 @@ package com.wangshuo.wslive.wslivedemo;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.LinkedList;
 
@@ -18,12 +19,8 @@ import me.lake.librestreaming.ws.filter.hardfilter.WatermarkFilter;
 import me.lake.librestreaming.ws.filter.hardfilter.extra.GPUImageCompatibleFilter;
 
 public class LiveActivity extends AppCompatActivity {
-    private static final String TAG = LiveActivity.class.getSimpleName();
     private StreamLiveCameraView mLiveCameraView;
-    private StreamAVOption streamAVOption;
-    private String rtmpUrl = "rtmp://ossrs.net/" + StatusBarUtils.getRandomAlphaString(3) + '/' + StatusBarUtils.getRandomAlphaDigitString(5);
-
-    private LiveUI mLiveUI;
+    private String rtmpUrl = "rtmp://52.17.182.110:1935/livestream/ea9a510c-7ef3-11ea-be3b-b36c03d4ddb1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,44 +29,49 @@ public class LiveActivity extends AppCompatActivity {
         StatusBarUtils.setTranslucentStatus(this);
 
         initLiveConfig();
-        mLiveUI = new LiveUI(this,mLiveCameraView,rtmpUrl);
+        new LiveUI(this, mLiveCameraView, rtmpUrl);
     }
 
     /**
-     * 设置推流参数
+     * Set streaming parameters
      */
     public void initLiveConfig() {
-        mLiveCameraView = (StreamLiveCameraView) findViewById(R.id.stream_previewView);
+        mLiveCameraView = findViewById(R.id.stream_previewView);
 
-        //参数配置 start
-        streamAVOption = new StreamAVOption();
+        //Parameter configuration start
+        StreamAVOption streamAVOption = new StreamAVOption();
         streamAVOption.streamUrl = rtmpUrl;
-        //参数配置 end
+        //Parameter configuration end
 
         mLiveCameraView.init(this, streamAVOption);
         mLiveCameraView.addStreamStateListener(resConnectionListener);
         LinkedList<BaseHardVideoFilter> files = new LinkedList<>();
+        //noinspection unchecked
         files.add(new GPUImageCompatibleFilter(new GPUImageBeautyFilter()));
-        files.add(new WatermarkFilter(BitmapFactory.decodeResource(getResources(),R.mipmap.live),new Rect(100,100,200,200)));
-        mLiveCameraView.setHardVideoFilter(new HardVideoGroupFilter(files));
+        files.add(new WatermarkFilter(BitmapFactory.decodeResource(getResources(), R.mipmap.live), new Rect(100, 100, 200, 200)));
+//        mLiveCameraView.setHardVideoFilter(new HardVideoGroupFilter(files));
     }
 
     RESConnectionListener resConnectionListener = new RESConnectionListener() {
         @Override
         public void onOpenConnectionResult(int result) {
             //result 0成功  1 失败
-            Toast.makeText(LiveActivity.this,"打开推流连接 状态："+result+ " 推流地址："+rtmpUrl,Toast.LENGTH_LONG).show();
+            Toast.makeText(LiveActivity.this, "Streaming connection status opened" +
+                    "：" + result + " Streaming address：" + rtmpUrl, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onWriteError(int errno) {
-            Toast.makeText(LiveActivity.this,"推流出错,请尝试重连",Toast.LENGTH_LONG).show();
+            Toast.makeText(LiveActivity.this,
+                    "An error occurred in the live stream, please try to reconnect",
+                    Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCloseConnectionResult(int result) {
             //result 0成功  1 失败
-            Toast.makeText(LiveActivity.this,"关闭推流连接 状态："+result,Toast.LENGTH_LONG).show();
+            Toast.makeText(LiveActivity.this, "Connection closed："
+                    + result, Toast.LENGTH_LONG).show();
         }
     };
 

@@ -1,5 +1,12 @@
 *.iml
 .gradle
+.idea
+.idea/caches/build_file_checksums.ser
+.idea/codeStyles/Project.xml
+.idea/dictionaries/*
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -7,3 +14,6 @@
 /build
 /captures
 .externalNativeBuild
+app/.cxx/
+libWSLive/src/main/libs
+libWSLive/src/main/obj

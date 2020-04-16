@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import me.lake.librestreaming.core.listener.RESScreenShotListener;
 import me.lake.librestreaming.filter.hardvideofilter.BaseHardVideoFilter;
+import me.lake.librestreaming.filter.hardvideofilter.OriginalHardVideoFilter;
 import me.lake.librestreaming.ws.StreamLiveCameraView;
 import me.lake.librestreaming.ws.filter.hardfilter.FishEyeFilterHard;
 import me.lake.librestreaming.ws.filter.hardfilter.GPUImageBeautyFilter;
@@ -36,7 +37,7 @@ public class LiveUI implements View.OnClickListener {
 
     private ImageView imageView;
 
-    public LiveUI(LiveActivity liveActivity , StreamLiveCameraView liveCameraView , String rtmpUrl) {
+    public LiveUI(LiveActivity liveActivity, StreamLiveCameraView liveCameraView, String rtmpUrl) {
         this.activity = liveActivity;
         this.liveCameraView = liveCameraView;
         this.rtmpUrl = rtmpUrl;
@@ -80,64 +81,67 @@ public class LiveUI implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-       switch (view.getId()){
-           case R.id.btn_startStreaming://开始推流
-               if(!liveCameraView.isStreaming()){
-                   liveCameraView.startStreaming(rtmpUrl);
-               }
-               break;
-           case R.id.btn_stopStreaming://停止推流
-               if(liveCameraView.isStreaming()){
-                   liveCameraView.stopStreaming();
-               }
-               break;
-           case R.id.btn_startRecord://开始录制
-               if(!liveCameraView.isRecord()){
-                   Toast.makeText(activity,"开始录制视频",Toast.LENGTH_SHORT).show();
-                   liveCameraView.startRecord();
-               }
-               break;
-           case R.id.btn_stopRecord://停止录制
-               if(liveCameraView.isRecord()){
-                   liveCameraView.stopRecord();
-                   Toast.makeText(activity,"视频已成功保存至系统根目录的 Movies/WSLive文件夹中",Toast.LENGTH_LONG).show();
-               }
-               break;
-           case R.id.btn_filter://切换滤镜
-               BaseHardVideoFilter baseHardVideoFilter = null;
-               if(isFilter){
-                   baseHardVideoFilter = new GPUImageCompatibleFilter(new GPUImageBeautyFilter());
-               }else {
-                   baseHardVideoFilter = new FishEyeFilterHard();
-               }
-               liveCameraView.setHardVideoFilter(baseHardVideoFilter);
-               isFilter = !isFilter;
-               break;
-           case R.id.btn_swapCamera://切换摄像头
-               liveCameraView.swapCamera();
-               break;
-           case R.id.btn_screenshot://截帧
-               liveCameraView.takeScreenShot(new RESScreenShotListener() {
-                   @Override
-                   public void onScreenShotResult(Bitmap bitmap) {
-                       if(bitmap != null){
-                           imageView.setVisibility(View.VISIBLE);
-                           imageView.setImageBitmap(bitmap);
-                       }
+        switch (view.getId()) {
+            case R.id.btn_startStreaming://Start streaming
+                if (!liveCameraView.isStreaming()) {
+                    liveCameraView.startStreaming(rtmpUrl);
+                }
+                break;
+            case R.id.btn_stopStreaming://Stop streaming
+                if (liveCameraView.isStreaming()) {
+                    liveCameraView.stopStreaming();
+                }
+                break;
+            case R.id.btn_startRecord://Start recording
+                if (!liveCameraView.isRecord()) {
+                    Toast.makeText(activity, "Started recording video", Toast.LENGTH_SHORT).show();
+                    liveCameraView.startRecord();
+                }
+                break;
+            case R.id.btn_stopRecord://Stop recording
+                if (liveCameraView.isRecord()) {
+                    liveCameraView.stopRecord();
+                    Toast.makeText(activity,
+                            "The video has been successfully saved to the Movies " +
+                                    "/ WSLive folder in the system root directory",
+                            Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.btn_filter://Switch filter
+                BaseHardVideoFilter baseHardVideoFilter = null;
+                if (isFilter) {
+                    baseHardVideoFilter = new GPUImageCompatibleFilter(new GPUImageBeautyFilter());
+                } else {
+                    baseHardVideoFilter = new FishEyeFilterHard();
+                }
+                liveCameraView.setHardVideoFilter(baseHardVideoFilter);
+                isFilter = !isFilter;
+                break;
+            case R.id.btn_swapCamera://切换摄像头
+                liveCameraView.swapCamera();
+                break;
+            case R.id.btn_screenshot://截帧
+                liveCameraView.takeScreenShot(new RESScreenShotListener() {
+                    @Override
+                    public void onScreenShotResult(Bitmap bitmap) {
+                        if (bitmap != null) {
+                            imageView.setVisibility(View.VISIBLE);
+                            imageView.setImageBitmap(bitmap);
+                        }
 
-                   }
-               });
-               break;
-           case R.id.btn_mirror://镜像
-               if(isMirror){
-                   liveCameraView.setMirror(true,false,false);
-               }else {
-                   liveCameraView.setMirror(true,true,true);
-               }
-               isMirror = !isMirror;
-               break;
-           default:
-               break;
-       }
+                    }
+                });
+                break;
+            case R.id.btn_mirror://镜像
+                if (isMirror) {
+                    liveCameraView.setMirror(true, false, false);
+                } else {
+                    liveCameraView.setMirror(true, true, true);
+                }
+                isMirror = !isMirror;
+                break;
+            default:
+                break;
+        }
     }
 }

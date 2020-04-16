@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,54 +17,59 @@
             android:id="@+id/btn_swapCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="前后置"/>
+            android:text="Swap camera" />
+
         <Button
             android:id="@+id/btn_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="滤镜"/>
+            android:text="Filter" />
+
         <Button
             android:id="@+id/btn_screenshot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="截帧"/>
+            android:text="Screenshot" />
+
         <Button
             android:id="@+id/btn_mirror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="镜像"/>
+            android:text="Mirror" />
 
     </LinearLayout>
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_startStreaming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开始推流"/>
+            android:text="Start streaming" />
+
         <Button
             android:id="@+id/btn_stopStreaming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="停止推流"/>
+            android:text="Stop streaming" />
 
         <Button
             android:id="@+id/btn_startRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开始录制"/>
+            android:text="Start recording" />
+
         <Button
             android:id="@+id/btn_stopRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="保存录制"/>
+            android:text="Stop recording" />
 
 
     </LinearLayout>
@@ -76,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
 </RelativeLayout>
